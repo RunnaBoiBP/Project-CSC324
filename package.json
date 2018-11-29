@@ -1,5 +1,5 @@
 {
-  "name": "Project-CSC324",
+  "name": "project-csc324",
   "private": true,
   "scripts": {
     "start": "node app.js"
