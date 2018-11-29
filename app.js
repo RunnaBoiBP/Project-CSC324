@@ -3,12 +3,24 @@ var path = require("path");
 var express = require("express");
 const bodyParser = require("body-parser");
 const session = require("cookie-session");
+const helmet = require("helmet");
+const ms = require("ms");
+const enforceSSL = require("express-enforces-ssl");
+const rootRouter = require("./root-router");
 const fs = require("fs");
 const md = require('markdown-it')({
   html: true,
   linkify: true,
   typographer: true
 });
+
+if (process.env.NODE_ENV == "production") {
+  app.use(enforceSSL());
+  app.use(helmet.hsts({
+    maxAge: ms("1 year"),
+    includeSubdomains: true
+  }));
+}
 
 const users = JSON.parse(fs.readFileSync("./data/users.json"));
 const quotes = JSON.parse(fs.readFileSync("./data/quotes.json"));
@@ -25,9 +37,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   name: "session",
   secret: "hey there",
-  //keys: process.env.KEY,
+  keys: process.env.KEY,
   maxAge: 60000,
-  secure: false,
+  secure: process.env.NODE_ENV == "production" ? true : false,
   httpOnly: true
 
 }));
@@ -139,6 +151,6 @@ app.use(function(req, res) {
   res.status(404).render("404");
 });
 
-http.createServer(app).listen(3000, function() {
+http.createServer(app).listen(process.env.PORT || 3000, function() {
   console.log("Project-CSC324 App Started");
 });
