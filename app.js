@@ -6,7 +6,6 @@ const session = require("cookie-session");
 const helmet = require("helmet");
 const ms = require("ms");
 const enforceSSL = require("express-enforces-ssl");
-const rootRouter = require("./root-router");
 const fs = require("fs");
 const md = require('markdown-it')({
   html: true,
