@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   name: "session",
   secret: "hey there",
-  keys: process.env.KEY,
+  // keys: process.env.KEY,
   maxAge: 60000,
   secure: process.env.NODE_ENV == "production" ? true : false,
   httpOnly: true
