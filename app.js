@@ -13,6 +13,8 @@ const md = require('markdown-it')({
   typographer: true
 });
 
+const app = express();
+
 if (process.env.NODE_ENV == "production") {
   app.use(enforceSSL());
   app.use(helmet.hsts({
@@ -25,7 +27,7 @@ const users = JSON.parse(fs.readFileSync("./data/users.json"));
 const quotes = JSON.parse(fs.readFileSync("./data/quotes.json"));
 let subscribers = JSON.parse(fs.readFileSync("./data/subscribers.json"));
 
-var app = express();
+
 
 app.set("views", path.resolve(__dirname, "views"));
 app.set("view engine", "ejs");
